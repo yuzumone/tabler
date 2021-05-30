@@ -1,0 +1,11 @@
+name: tabler
+description: Display table format.
+version: 1.0.0
+homepage: https://github.com/yuzumone/tabler
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dev_dependencies:
+  pedantic: ^1.10.0
+  test: ^1.16.0
