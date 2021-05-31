@@ -1,11 +1,16 @@
 import 'dart:math';
 
+/// Whether and how to align text horizontally.
 enum TableTextAlign {
+  /// Align the text on the left edge of the cell.
   left,
+  /// Align the text in the center of the cell.
   center,
+  /// Align the text on the right edge of the cell.
   right,
 }
 
+/// A class for displaying table format.
 class Tabler {
   final List<List<dynamic>> _data;
   final List<dynamic> _header;
@@ -14,12 +19,14 @@ class Tabler {
 
   Tabler._(this._data, this._header, this._style);
 
+  /// Creates a table.
   Tabler({
     List<List<dynamic>>? data,
     List<dynamic>? header,
     TablerStyle? style,
   }) : this._(data ?? [], header ?? [], style ?? TablerStyle());
 
+  /// Add a row to the table.
   void add(List<dynamic> data) {
     if (_rowCount != 0 && _rowCount != data.length) {
       throw Exception('Row has incorrect number of values.');
@@ -30,10 +37,12 @@ class Tabler {
     _data.add(data);
   }
 
+  /// Add rows to the table.
   void addAll(List<List<dynamic>> data) {
     data.forEach((e) => add(e));
   }
 
+  /// Remove a row from the table.
   void remove(int index) {
     if (index > _data.length - 1) {
       throw Exception('Can\'t delete row at index $index');
@@ -41,10 +50,12 @@ class Tabler {
     _data.removeAt(index);
   }
 
+  /// Clear all rows from the table.
   void clear() {
     _data.clear();
   }
 
+  /// Add a header to the table.
   void addHeader(List<dynamic> header) {
     if (_rowCount != 0 && _rowCount != header.length) {
       throw Exception('Row has incorrect number of values.');
@@ -55,6 +66,7 @@ class Tabler {
     header.forEach((e) => _header.add(e));
   }
 
+  /// Clear a header from the table.
   void removeHeader() {
     _header.clear();
   }
@@ -154,13 +166,20 @@ class Tabler {
   }
 }
 
+/// A class for table style describing how to format.
 class TablerStyle {
+  /// The character string used to draw vertical lines.
   final String verticalChar;
+  /// The character string used to draw horizontal lines.
   final String horizontalChar;
+  /// The character string used to draw line junctions.
   final String junctionChar;
+  /// Empty space to inscribe inside the cell.
   final int padding;
+  /// How the text should be aligned horizontally.
   final TableTextAlign align;
 
+  /// Creates a table style.
   const TablerStyle({
     this.verticalChar = '|',
     this.horizontalChar = '-',
