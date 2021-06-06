@@ -1,0 +1,18 @@
+name: test and lint
+
+on: [pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: DanTup/gh-actions/setup-dart@master
+      - name: pub get
+        run: dart pub get
+      - name: format
+        run: dart format --set-exit-if-changed .
+      - name: dart analyze
+        run: dart analyze --fatal-infos
+      - name: test
+        run: dart test --verbose-trace
