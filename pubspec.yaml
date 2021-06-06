@@ -1,6 +1,6 @@
 name: tabler
 description: Display table format.
-version: 1.0.0
+version: 1.0.1-dev
 homepage: https://github.com/yuzumone/tabler
 
 environment:
