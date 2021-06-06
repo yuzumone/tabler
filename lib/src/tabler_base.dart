@@ -4,8 +4,10 @@ import 'dart:math';
 enum TableTextAlign {
   /// Align the text on the left edge of the cell.
   left,
+
   /// Align the text in the center of the cell.
   center,
+
   /// Align the text on the right edge of the cell.
   right,
 }
@@ -170,12 +172,16 @@ class Tabler {
 class TablerStyle {
   /// The character string used to draw vertical lines.
   final String verticalChar;
+
   /// The character string used to draw horizontal lines.
   final String horizontalChar;
+
   /// The character string used to draw line junctions.
   final String junctionChar;
+
   /// Empty space to inscribe inside the cell.
   final int padding;
+
   /// How the text should be aligned horizontally.
   final TableTextAlign align;
 
