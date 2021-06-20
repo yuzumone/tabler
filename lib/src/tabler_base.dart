@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:wcwidth/wcwidth.dart';
 
 /// Whether and how to align text horizontally.
 enum TableTextAlign {
@@ -76,7 +77,7 @@ class Tabler {
   List<int> _getSize(String s) {
     var lines = s.split('\n');
     var height = lines.length;
-    var width = lines.map((e) => e.length).reduce(max);
+    var width = lines.map((e) => e.wcwidth()).reduce(max);
     return [width, height];
   }
 
@@ -132,15 +133,21 @@ class Tabler {
   }
 
   String _justify(String text, int width, TableTextAlign align) {
+    var excess = width - text.wcwidth();
     switch (align) {
       case TableTextAlign.left:
-        return text.padRight(width);
+        var space = ' ' * excess;
+        return text + space;
       case TableTextAlign.right:
-        return text.padLeft(width);
+        var space = ' ' * excess;
+        return space + text;
       case TableTextAlign.center:
-        final len = text.length;
-        final pad = (width - len) ~/ 2;
-        return text.padLeft(pad + len).padRight(width);
+        var space = ' ' * (excess ~/ 2);
+        if (excess % 2 == 1) {
+          return space + text + space + ' ';
+        } else {
+          return space + text + space;
+        }
     }
   }
 
