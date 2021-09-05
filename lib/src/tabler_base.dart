@@ -77,7 +77,7 @@ class Tabler {
   List<int> _getSize(String s) {
     var lines = s.split('\n');
     var height = lines.length;
-    var width = lines.map((e) => e.wcwidth()).reduce(max);
+    var width = lines.map((e) => e.removeAnsiEscape().wcwidth()).reduce(max);
     return [width, height];
   }
 
@@ -133,7 +133,7 @@ class Tabler {
   }
 
   String _justify(String text, int width, TableTextAlign align) {
-    var excess = width - text.wcwidth();
+    var excess = width - text.removeAnsiEscape().wcwidth();
     switch (align) {
       case TableTextAlign.left:
         var space = ' ' * excess;
@@ -200,4 +200,11 @@ class TablerStyle {
     this.padding = 1,
     this.align = TableTextAlign.left,
   });
+}
+
+extension StringExt on String {
+  String removeAnsiEscape() {
+    final regex = RegExp(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])');
+    return replaceAll(regex, '');
+  }
 }
