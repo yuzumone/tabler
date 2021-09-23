@@ -96,12 +96,17 @@ class Tabler {
     final rpad = _style.padding;
     final horizontalChar = _style.horizontalChar;
     final junctionChar = _style.junctionChar;
+    final isBorder = _style.border;
 
     var bits = <String>[];
-    bits.add(junctionChar);
-    widths.forEach((element) {
-      bits.add(List.filled(lpad + rpad + element, horizontalChar).join(''));
+    if (isBorder) {
       bits.add(junctionChar);
+    }
+    widths.asMap().forEach((i, value) {
+      bits.add(List.filled(lpad + rpad + value, horizontalChar).join(''));
+      if (isBorder || i < widths.length - 1) {
+        bits.add(junctionChar);
+      }
     });
     return bits.join('');
   }
@@ -110,11 +115,17 @@ class Tabler {
     final pad = List.filled(_style.padding, ' ').join('');
     final verticalChar = _style.verticalChar;
     final align = _style.align;
+    final isBorder = _style.border;
     final rowHeight = row.map((e) => _getSize(e)[1]).reduce(max);
     final bits = [];
 
-    List.generate(rowHeight, (index) => index)
-        .forEach((e) => bits.add([verticalChar]));
+    List.generate(rowHeight, (index) => index).forEach((e) {
+      if (isBorder) {
+        bits.add([verticalChar]);
+      } else {
+        bits.add(['']);
+      }
+    });
     row.asMap().forEach((i, value) {
       var width = widths[i];
       var lines = value.split('\n');
@@ -122,10 +133,12 @@ class Tabler {
       if (dHeight > 0) {
         lines = lines + List.filled(dHeight, '');
       }
-      lines.asMap().forEach((i, v) {
+      lines.asMap().forEach((j, v) {
         var s = _justify(v, width, align);
-        bits[i].add('$pad$s$pad');
-        bits[i].add(verticalChar);
+        bits[j].add('$pad$s$pad');
+        if (isBorder || i < row.length - 1) {
+          bits[j].add(verticalChar);
+        }
       });
     });
 
@@ -192,6 +205,9 @@ class TablerStyle {
   /// How the text should be aligned horizontally.
   final TableTextAlign align;
 
+  /// Controls whether or not a border is drawn around the table.
+  final bool border;
+
   /// Creates a table style.
   const TablerStyle({
     this.verticalChar = '|',
@@ -199,6 +215,7 @@ class TablerStyle {
     this.junctionChar = '+',
     this.padding = 1,
     this.align = TableTextAlign.left,
+    this.border = true,
   });
 }
 

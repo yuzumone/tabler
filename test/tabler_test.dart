@@ -138,6 +138,41 @@ void main() {
 +---+----+-----+''';
       expect(t.toString(), expected);
     });
+
+    test('no header without border', () {
+      var t = Tabler(style: TablerStyle(border: false));
+      t.add(['a', 'b', 'c']);
+      t.add([1, 22, 333]);
+      var expected = '''---+----+-----
+ a | b  | c   
+ 1 | 22 | 333 
+---+----+-----''';
+      expect(t.toString(), expected);
+    });
+
+    test('no header without border align right', () {
+      var t = Tabler(
+          style: TablerStyle(border: false, align: TableTextAlign.right));
+      t.add(['a', 'b', 'c']);
+      t.add([1, 22, 333]);
+      var expected = '''---+----+-----
+ a |  b |   c 
+ 1 | 22 | 333 
+---+----+-----''';
+      expect(t.toString(), expected);
+    });
+
+    test('no header without border align center', () {
+      var t = Tabler(
+          style: TablerStyle(border: false, align: TableTextAlign.center));
+      t.add(['a', 'b', 'c']);
+      t.add([1, 22, 333]);
+      var expected = '''---+----+-----
+ a | b  |  c  
+ 1 | 22 | 333 
+---+----+-----''';
+      expect(t.toString(), expected);
+    });
   });
 
   group('tabler test with header', () {
@@ -285,6 +320,44 @@ void main() {
 +----+------+-------+
 | $cell1  |  $cell2  |  $cell3  |
 +----+------+-------+''';
+      expect(t.toString(), expected);
+    });
+
+    test('with header without border', () {
+      var t = Tabler(style: TablerStyle(border: false));
+      t.add([1, 22, 333]);
+      t.addHeader(['あ', '🎉🎉', 'aあ🎉']);
+      var expected = '''----+------+-------
+ あ | 🎉🎉 | aあ🎉 
+----+------+-------
+ 1  | 22   | 333   
+----+------+-------''';
+      expect(t.toString(), expected);
+    });
+
+    test('with header without border align right', () {
+      var t = Tabler(
+          style: TablerStyle(border: false, align: TableTextAlign.right));
+      t.add([1, 22, 333]);
+      t.addHeader(['あ', '🎉🎉', 'aあ🎉']);
+      var expected = '''----+------+-------
+ あ | 🎉🎉 | aあ🎉 
+----+------+-------
+  1 |   22 |   333 
+----+------+-------''';
+      expect(t.toString(), expected);
+    });
+
+    test('with header without border align right', () {
+      var t = Tabler(
+          style: TablerStyle(border: false, align: TableTextAlign.center));
+      t.add([1, 22, 333]);
+      t.addHeader(['あ', '🎉🎉', 'aあ🎉']);
+      var expected = '''----+------+-------
+ あ | 🎉🎉 | aあ🎉 
+----+------+-------
+ 1  |  22  |  333  
+----+------+-------''';
       expect(t.toString(), expected);
     });
   });
