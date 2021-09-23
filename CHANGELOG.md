@@ -1,4 +1,4 @@
-## 1.0.2-dev
+## 1.0.2
 - Remove ansi escape
 - Add border option
 
