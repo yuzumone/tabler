@@ -1,3 +1,6 @@
+## 1.1.0-dev
+- Bump SDK constraint to 4.0.0
+
 ## 1.0.2
 - Remove ansi escape
 - Add border option
