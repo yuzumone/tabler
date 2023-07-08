@@ -42,7 +42,9 @@ class Tabler {
 
   /// Add rows to the table.
   void addAll(List<List<dynamic>> data) {
-    data.forEach((e) => add(e));
+    for (var e in data) {
+      add(e);
+    }
   }
 
   /// Remove a row from the table.
@@ -66,7 +68,7 @@ class Tabler {
     if (_rowCount == 0) {
       _rowCount = header.length;
     }
-    header.forEach((e) => _header.add(e));
+    _header.addAll(header);
   }
 
   /// Clear a header from the table.
@@ -83,11 +85,11 @@ class Tabler {
 
   List<int> _computeWidths(List<List<String>> rows) {
     var w = List.filled(rows[0].length, 0);
-    rows.forEach((element) {
+    for (var element in rows) {
       element.asMap().forEach((i, value) {
         w[i] = max(w[i], _getSize(value)[0]);
       });
-    });
+    }
     return w;
   }
 
@@ -119,13 +121,13 @@ class Tabler {
     final rowHeight = row.map((e) => _getSize(e)[1]).reduce(max);
     final bits = [];
 
-    List.generate(rowHeight, (index) => index).forEach((e) {
+    for (var _ in List.generate(rowHeight, (index) => index)) {
       if (isBorder) {
         bits.add([verticalChar]);
       } else {
         bits.add(['']);
       }
-    });
+    }
     row.asMap().forEach((i, value) {
       var width = widths[i];
       var lines = value.split('\n');
@@ -157,7 +159,7 @@ class Tabler {
       case TableTextAlign.center:
         var space = ' ' * (excess ~/ 2);
         if (excess % 2 == 1) {
-          return space + text + space + ' ';
+          return '$space$text$space ';
         } else {
           return space + text + space;
         }
@@ -166,17 +168,19 @@ class Tabler {
 
   String _build(List<List<String>> data, List<String> header) {
     final lines = <String>[];
-    final _widths = _computeWidths([...data, header]);
-    final _hrule = _stringifyHrule(_widths);
+    final widths = _computeWidths([...data, header]);
+    final hrule = _stringifyHrule(widths);
 
     if (header.isNotEmpty) {
-      lines.add(_hrule);
-      lines.add(_stringifyRow(header, _widths));
+      lines.add(hrule);
+      lines.add(_stringifyRow(header, widths));
     }
 
-    lines.add(_hrule);
-    data.forEach((e) => lines.add(_stringifyRow(e, _widths)));
-    lines.add(_hrule);
+    lines.add(hrule);
+    for (var e in data) {
+      lines.add(_stringifyRow(e, widths));
+    }
+    lines.add(hrule);
     return lines.join('\n');
   }
 
