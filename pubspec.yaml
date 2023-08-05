@@ -1,6 +1,6 @@
 name: tabler
 description: This library is displaying tabular data in ASCII table format.
-version: 1.1.0-dev
+version: 1.1.0
 repository: https://github.com/yuzumone/tabler
 
 environment:
